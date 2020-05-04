@@ -14,6 +14,8 @@ feature 'achievement page' do
         visit("/achievements/#{achievement.id}")
 
         #expect(page).to have_content('<em>was</em>')
+        #have content ignores any html tag, but we want to check if we have the right
+        #styling tag provided by Redcarpet
         expect(page).to have_css('em', text: 'was')  #since redcarpet is rendering html_safe, we need to look for CSS
     end
 
