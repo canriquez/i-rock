@@ -10,6 +10,16 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <ul>
+            <li><%= link_to 'New Achievement', new_achievement_path %></li>
+        </ul>
+      </div>
+    </nav>
+    <% if flash[:notice] %>
+      <div class="alert alert-info"><%= flash[:notice] %></div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

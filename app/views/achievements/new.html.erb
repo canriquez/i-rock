@@ -1,0 +1,13 @@
+<div class="container">
+    <%= simple_form_for @achievement do |f| %>
+        <%= f.input :title %>
+        <%= f.input :description %>
+        <%= f.input :privacy, collection: Hash[privacyOptions] %> 
+        <%= f.input :features, label: "Featured achievement", as: :boolean %>
+        <%= f.input :cover_image, as: :file %>
+        <%= f.button :submit, as: "Create Achievement",   class: "btn btn-primary" %>
+    <% end %>
+</div>
+
+
+

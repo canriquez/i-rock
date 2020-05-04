@@ -39,6 +39,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 gem 'sassc-rails', '>= 2.1.0'
 gem 'jquery-rails'
+gem 'simple_form', '~> 5.0', '>= 5.0.2'
+gem 'redcarpet', '~> 3.5'
 
 
 
@@ -49,6 +51,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0'
   gem 'spring-commands-rspec', '~> 1.0', '>= 1.0.4'
   gem "factory_bot_rails"
+  gem 'hirb'
   
 
 end
