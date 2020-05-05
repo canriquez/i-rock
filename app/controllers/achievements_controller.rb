@@ -23,12 +23,18 @@ class AchievementsController < ApplicationController
   end
 
   def update
-    #@achievement = Achievement.find(params[:id])
+    @achievement = Achievement.find(params[:id])
     #redirect_to achievement_path(@achievement)
-    #render nothing: true  -- We dont need this at all
+    #render nothing: true  /this here was used to trick rspect as 
+    #we dont render with update -- We dont need this at all
+    #------------------
     #after refactoring:
-
-    redirect_to achievement_path(params[:id])
+    if @achievement.update_attributes(achievement_params)  #if we succeed to update
+        redirect_to achievement_path(params[:id])  #then we show the update done
+    else 
+        puts "Update is invalid - Render..."
+        render :edit
+    end
   end
 
   def show
