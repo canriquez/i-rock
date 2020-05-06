@@ -1,5 +1,5 @@
 class Achievement < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   validates :title, presence: true
   enum privacy: %i[public_access private_access friends_access]

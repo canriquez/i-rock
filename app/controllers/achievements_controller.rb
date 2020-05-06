@@ -12,7 +12,12 @@ before_action :owners_only, only: [ :edit, :update, :destroy]
 
   def create
     @achievement = Achievement.new(achievement_params)
+    @achievement.user = current_user  #dont forget to add the current user as the model will reject due to the association.
+    #puts "here are the params getting into create: "
+    #p achievement_params
     if @achievement.save
+      #puts "after saving"
+      #p @achievement
       redirect_to achievement_url(@achievement), notice: 'Achievement has been created'
     else
       render :new
