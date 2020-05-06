@@ -21,12 +21,12 @@ describe AchievementsController do
       let(:achievement) { FactoryBot.create(:public_achievement) }
   
       it 'renders :show template' do
-        get :show, params: { id: achievement.id }
+        get :show, params: { id: achievement }
         expect(response).to render_template(:show)
       end
   
       it 'assings requested achievement to @achievement' do
-        get :show, params: { id: achievement.id }
+        get :show, params: { id: achievement }
         expect(assigns(:achievement)).to eq(achievement)
       end
     end
@@ -56,7 +56,7 @@ describe AchievementsController do
     describe "GET edit" do
       let(:achievement) { FactoryBot.create(:public_achievement) }
       it "redirects to login page" do
-         get :edit, params: { id: achievement.id }
+         get :edit, params: { id: achievement }
         expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -73,7 +73,7 @@ describe AchievementsController do
     describe "DELETE destroy" do
       let(:achievement) { FactoryBot.create(:public_achievement) }
       it "redirects to login page" do
-          delete :destroy, params: { id: achievement.id }
+          delete :destroy, params: { id: achievement }
           expect(response).to redirect_to(new_user_session_url)
       end
     end
@@ -198,11 +198,11 @@ describe AchievementsController do
 
       describe "GET edit" do
           it "renders :edit template" do
-            get :edit, params: { id: achievement.id }
+            get :edit, params: { id: achievement }
             expect(response).to render_template(:edit)
           end
           it "addigns the requested achievement to template" do
-            get :edit, params: { id: achievement.id }
+            get :edit, params: { id: achievement }
             expect(assigns(:achievement)).to eq(achievement)
           end
       end
@@ -237,12 +237,12 @@ describe AchievementsController do
     
       describe "DELETE destroy" do
         it "redirects to achievements#index" do
-            delete :destroy, params: { id: achievement.id }
+            delete :destroy, params: { id: achievement }
             expect(response).to redirect_to(achievement_path)
         end
     
         it "deletes achievement from database" do
-            delete :destroy, params: { id: achievement.id }
+            delete :destroy, params: { id: achievement }
             expect(Achievement.exists?(achievement.id)).to be_falsy
         end
     
