@@ -2,6 +2,7 @@ class Achievement < ApplicationRecord
   belongs_to :user, optional: true
 
   validates :title, presence: true
+  validates :user, presence: true  #this validation will breake controller tests as there we create Achievements with no users
   #validates :uniqueness: { case_sensitive: false }
   validate :unique_title_for_one_user
 
@@ -20,4 +21,8 @@ class Achievement < ApplicationRecord
       errors.add(:title, "you can't have two achievements with the same title")
     end 
   end 
+
+
+
+
 end
