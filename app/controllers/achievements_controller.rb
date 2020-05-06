@@ -1,5 +1,6 @@
 class AchievementsController < ApplicationController
 before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy]
+before_action :owners_only, only: [ :edit, :update, :destroy]
 
   def index
     @achievements = Achievement.public_access
@@ -19,11 +20,13 @@ before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destr
   end
 
   def edit
-    @achievement = Achievement.find(params[:id])
+    #@achievement = Achievement.find(params[:id]) THIS WAS REPLOACED BY OWNERS ONLY before_action method
   end
 
   def update
-    @achievement = Achievement.find(params[:id])
+    #@achievement = Achievement.find(params[:id]) THIS WAS REPLOACED BY OWNERS ONLY before_action method
+
+
     #redirect_to achievement_path(@achievement)
     #render nothing: true  /this here was used to trick rspect as 
     #we dont render with update -- We dont need this at all
@@ -38,7 +41,8 @@ before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destr
   end
 
   def destroy
-    Achievement.destroy(params[:id])
+    #Achievement.destroy(params[:id])
+    @achievement.destroy  #this has already the right id created in the members_only method
     redirect_to achievement_path  
   end
 
@@ -56,4 +60,12 @@ before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destr
   def achievement_params
     params.require(:achievement).permit(:title, :description, :privacy, :cover_image, :features)
   end
+
+  def owners_only
+    @achievement = Achievement.find(params[:id])
+    if current_user != @achievement.user 
+      redirect_to achievements_path
+    end 
+  end 
+
 end

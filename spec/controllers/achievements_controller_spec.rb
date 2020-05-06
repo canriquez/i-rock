@@ -60,7 +60,7 @@ describe AchievementsController do
 
     describe "PUT update" do
       let(:valid_data) { FactoryBot.attributes_for(:public_achievement, title: "New Title") }
-      let(:achievement) { FactoryBot.attributes_for(:public_achievement) }
+      let(:achievement) { FactoryBot.create(:public_achievement) }
       it "redirect to login page" do
         put :update, params: { id: achievement, achievement: valid_data }
         expect(response).to redirect_to(new_user_session_url)
@@ -161,7 +161,35 @@ describe AchievementsController do
       end
     end
 
-    context "is not the owner of the achievement"
+    context "is not the owner of the achievement" do 
+      #to test we create an achievement with another user try to edit, update and destroy with signed in user
+      let(:another_user) { FactoryBot.create(:user) }
+      describe "GET edit" do
+        it "redirects to achievements page" do
+          puts "we create achievement user:"
+          puts "creator id: #{another_user.id}, logged in id: #{user.id}"
+           get :edit, params: { id: FactoryBot.create(:public_achievement, user: another_user) }
+          expect(response).to redirect_to(achievements_path)
+        end
+      end
+  
+      describe "PUT update" do
+        let(:valid_data) { FactoryBot.attributes_for(:public_achievement, title: "New Title") }
+        let(:achievement) { FactoryBot.create(:public_achievement, user: another_user) }
+        it "redirect to achievements page" do
+          put :update, params: { id: achievement, achievement: valid_data, user: user }
+          expect(response).to redirect_to(achievements_path)
+        end
+      end
+  
+      describe "DELETE destroy" do
+        let(:achievement) { FactoryBot.create(:public_achievement, user: another_user) }
+        it "redirects to achievements page" do
+            delete :destroy, params: { id: achievement }
+            expect(response).to redirect_to(achievements_path)
+        end
+      end
+    end
     context "is the owner of the achievement"
   end
 
