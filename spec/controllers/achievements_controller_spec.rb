@@ -1,8 +1,12 @@
 require 'rails_helper'
 
+
+
 describe AchievementsController do
-  
-  describe "GET index" do
+
+  describe "guest user" do
+
+    describe "GET index" do
       it "renders :index template" do
           get :index
           expect(response).to render_template(:index)
@@ -14,7 +18,102 @@ describe AchievementsController do
           get :index
           expect(assigns(:achievements)).to match_array([public_achievement])
       end
+    end
+
+    describe 'GET show' do
+      let(:achievement) { FactoryBot.create(:public_achievement) }
+  
+      it 'renders :show template' do
+        get :show, params: { id: achievement.id }
+        expect(response).to render_template(:show)
+      end
+  
+      it 'assings requested achievement to @achievement' do
+        get :show, params: { id: achievement.id }
+        expect(assigns(:achievement)).to eq(achievement)
+      end
+    end
+
+    #We test that any guest is sent to login page on #new #create #edit #Update #destroy 
+    describe "GET new" do
+      it "redirects to login page" do
+        get :new
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+
+    describe "POST create" do
+      let(:valid_data) { FactoryBot.attributes_for(:public_achievement) }
+      it "redirects to login page" do
+        post :create, params: { achievement: valid_data }
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+
+    describe "GET edit" do
+      let(:achievement) { FactoryBot.create(:public_achievement) }
+      it "redirects to login page" do
+         get :edit, params: { id: achievement.id }
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+
+    describe "PUT update" do
+      let(:valid_data) { FactoryBot.attributes_for(:public_achievement, title: "New Title") }
+      let(:achievement) { FactoryBot.attributes_for(:public_achievement) }
+      it "redirect to login page" do
+        put :update, params: { id: achievement, achievement: valid_data }
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+
+    describe "DELETE destroy" do
+      let(:achievement) { FactoryBot.create(:public_achievement) }
+      it "redirects to login page" do
+          delete :destroy, params: { id: achievement.id }
+          expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
   end
+  
+  describe "authenticated user" do
+    let(:user) { FactoryBot.create(:user) }
+    before do
+      sign_in(user)
+    end
+
+    describe "GET index" do
+      it "renders :index template" do
+          get :index
+          expect(response).to render_template(:index)
+      end
+
+      it "assigns only public achievements to template" do
+          public_achievement = FactoryBot.create(:public_achievement)
+          private_achivement = FactoryBot.create(:private_achievement)
+          get :index
+          expect(assigns(:achievements)).to match_array([public_achievement])
+      end
+    end
+
+    describe 'GET show' do
+      let(:achievement) { FactoryBot.create(:public_achievement) }
+  
+      it 'renders :show template' do
+        get :show, params: { id: achievement.id }
+        expect(response).to render_template(:show)
+      end
+  
+      it 'assings requested achievement to @achievement' do
+        get :show, params: { id: achievement.id }
+        expect(assigns(:achievement)).to eq(achievement)
+      end
+    end
+
+  end
+
+
 
   describe "GET edit" do
     let(:achievement) { FactoryBot.create(:public_achievement) }
@@ -88,19 +187,6 @@ describe AchievementsController do
     end
   end
 
-  describe 'GET show' do
-    let(:achievement) { FactoryBot.create(:public_achievement) }
-
-    it 'renders :show template' do
-      get :show, params: { id: achievement.id }
-      expect(response).to render_template(:show)
-    end
-
-    it 'assings requested achievement to @achievement' do
-      get :show, params: { id: achievement.id }
-      expect(assigns(:achievement)).to eq(achievement)
-    end
-  end
 
   describe 'POST create' do
     context 'valid data' do
