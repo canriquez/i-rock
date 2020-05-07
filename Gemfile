@@ -54,6 +54,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-cucumber'
   gem 'spring-commands-rspec', '~> 1.0', '>= 1.0.4'
+
 end
 
 group :development do
@@ -68,6 +69,7 @@ group :test do
   gem 'capybara', '~> 3.32', '>= 3.32.1'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'shoulda-matchers', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
