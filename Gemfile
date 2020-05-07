@@ -42,6 +42,7 @@ gem 'redcarpet', '~> 3.5'
 gem 'sassc-rails', '>= 2.1.0'
 gem 'simple_form', '~> 5.0', '>= 5.0.2'
 gem 'devise'
+gem 'carrierwave', '~> 2.1'
 
 
 group :development, :test do

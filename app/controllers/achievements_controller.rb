@@ -18,7 +18,9 @@ before_action :owners_only, only: [ :edit, :update, :destroy]
     if @achievement.save
       #puts "after saving"
       #p @achievement
+      UserMailer.achievement_created(current_user.email, @achievement.id).deliver_now
       redirect_to achievement_url(@achievement), notice: 'Achievement has been created'
+
     else
       render :new
     end

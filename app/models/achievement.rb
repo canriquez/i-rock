@@ -19,6 +19,8 @@ class Achievement < ApplicationRecord
 
   enum privacy: %i[public_access private_access friends_access]
 
+  mount_uploader :cover_image, CoverImageUploader
+
   def description_html
     Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(description)
     # after creating this metod in the model, we need to adjust the show template
@@ -35,8 +37,6 @@ class Achievement < ApplicationRecord
     includes(:user).where("title LIKE ?", "#{letter}%").order("users.email")
   end
 
-
-
   private 
 
   def unique_title_for_one_user
@@ -45,8 +45,5 @@ class Achievement < ApplicationRecord
       errors.add(:title, "you can't have two achievements with the same title")
     end 
   end 
-
-
-
-
+  
 end
